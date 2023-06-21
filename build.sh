@@ -9,7 +9,7 @@ KERNEL_PATCHES=$BUILD_ROOT_DIRECTORY/patches
 MODULES_FOLDER=$KERNEL_SOURCE_FOLDER/modules
 HEADERS_FOLDER=$KERNEL_SOURCE_FOLDER/headers
 KERNEL_CONFIG=combined-kernel.conf
-DRACUT_CONFIG=dracut.conf
+#DRACUT_CONFIG=dracut.conf
 INITRAMFS_NAME=initramfs.cpio.xz
 
 # Exit on errors
@@ -238,22 +238,21 @@ edit_kernel_config() {
   make menuconfig
 }
 
-#uses dracut to generate initramfs
+#Use a custom kexec bootloader
 create_initramfs() {
   cd $KERNEL_SOURCE_FOLDER
 
   write_output "Building initramfs" "blue"
   echo -e "\n"
   # Generate initramfs from the built modules
-  # when --confdir is not set dracut will use the systems config -> create empty folder to prevent dracut from using the systems config
-  mkdir $BUILD_ROOT_DIRECTORY/$DRACUT_CONFIG.d
-  dracut -c $BUILD_ROOT_DIRECTORY/$DRACUT_CONFIG --confdir $BUILD_ROOT_DIRECTORY/$DRACUT_CONFIG.d initramfs.cpio.xz --kver $KVER --kmoddir "$MODULES_FOLDER/lib/modules/$KVER" --force
+  # TODO: 
+  
   # copy initramfs to build root for the GitHub release
-  cp initramfs.cpio.xz $BUILD_ROOT_DIRECTORY/initramfs.cpio.xz
-  write_output "Building kernel with initramfs" "blue"
-  echo -e "\n"
-  build_kernel 0
-  echo -e "\n"
+  #cp initramfs.cpio.xz $BUILD_ROOT_DIRECTORY/initramfs.cpio.xz
+  #write_output "Building kernel with initramfs" "blue"
+  #echo -e "\n"
+  #build_kernel 0
+  #echo -e "\n"
 }
 
 #Gets required input from user to run the kernel build.
