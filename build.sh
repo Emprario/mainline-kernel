@@ -246,11 +246,13 @@ create_initramfs() {
   echo -e "\n"
 
   # Magic cmd to create initramfs
-  mkdir initramfs/lib/modules
+  rm -rf initramfs/lib/modules/*
+  mkdir -p initramfs/lib/modules
   tar xpf modules.tar.xz -C initramfs/lib/modules
-  find initramfs | cpio -ov --format=newc | gzip -9 > initramfs.cpio.xz
+  rm -f initramfs.cpio $KERNEL_SOURCE_FOLDER/initramfs.cpio
+  find initramfs | cpio -ov --format=newc > initramfs.cpio
   # copy initramfs to build root for the GitHub release
-  cp initramfs.cpio.xz $KERNEL_SOURCE_FOLDER/initramfs.cpio.xz
+  cp initramfs.cpio $KERNEL_SOURCE_FOLDER/initramfs.cpio
   write_output "Building kernel with initramfs" "blue"
   echo -e "\n"
   build_kernel 0
