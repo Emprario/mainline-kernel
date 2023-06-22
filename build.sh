@@ -240,19 +240,21 @@ edit_kernel_config() {
 
 #Use a custom kexec bootloader
 create_initramfs() {
-  cd $KERNEL_SOURCE_FOLDER
+  cd $BUILD_ROOT_DIRECTORY
 
   write_output "Building initramfs" "blue"
   echo -e "\n"
-  # Generate initramfs from the built modules
-  # TODO: 
-  
+
+  # Magic cmd to create initramfs
+  mkdir initramfs/lib/modules
+  tar xpf modules.tar.xz -C initramfs/lib/modules
+  find initramfs | cpio -ov --format=newc | gzip -9 > initramfs.cpio.xz
   # copy initramfs to build root for the GitHub release
-  #cp initramfs.cpio.xz $BUILD_ROOT_DIRECTORY/initramfs.cpio.xz
-  #write_output "Building kernel with initramfs" "blue"
-  #echo -e "\n"
-  #build_kernel 0
-  #echo -e "\n"
+  cp initramfs.cpio.xz $KERNEL_SOURCE_FOLDER/initramfs.cpio.xz
+  write_output "Building kernel with initramfs" "blue"
+  echo -e "\n"
+  build_kernel 0
+  echo -e "\n"
 }
 
 #Gets required input from user to run the kernel build.
