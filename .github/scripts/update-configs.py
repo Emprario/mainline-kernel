@@ -19,9 +19,13 @@ if __name__ == "__main__":
     # Get the latest stable version
     latest_version = "v" + data["latest_stable"]["version"]
     latest_source  = data["releases"][1]["source"]
-    # Git clone the latest stable version
-    bash(f"git clone --depth=1 --branch={latest_version} https://git.kernel.org/pub/scm/linux/kernel/git/"
-         f"stable/linux.git")
+    
+    if not os.path.exists("linux"):
+        # Git clone the latest stable version if not exists else just update repo
+        bash(f"git clone --depth=1 --branch={latest_version} https://git.kernel.org/pub/scm/linux/kernel/git/"
+             f"stable/linux.git")
+    else:
+        bash("cd linux; git pull; cd ..")
 
     # pull fresh arch linux config to use as base.conf
     urlretrieve(url="https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/linux/trunk/config",
