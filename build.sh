@@ -1,7 +1,7 @@
 #!/bin/bash
 
-KERNEL_VERSION=6.3.4
-KERNEL_SOURCE_URL=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.4.tar.xz
+KERNEL_VERSION=6.3.9
+KERNEL_SOURCE_URL=https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.9.tar.xz
 KERNEL_SOURCE_NAME=linux-$KERNEL_VERSION
 BUILD_ROOT_DIRECTORY=$(pwd)
 KERNEL_SOURCE_FOLDER=$BUILD_ROOT_DIRECTORY/linux-$KERNEL_VERSION
@@ -10,7 +10,7 @@ MODULES_FOLDER=$KERNEL_SOURCE_FOLDER/modules
 HEADERS_FOLDER=$KERNEL_SOURCE_FOLDER/headers
 KERNEL_CONFIG=combined-kernel.conf
 #DRACUT_CONFIG=dracut.conf
-INITRAMFS_NAME=initramfs.cpio.xz
+INITRAMFS_NAME=initramfs.cpio
 
 # Exit on errors
 set -e
