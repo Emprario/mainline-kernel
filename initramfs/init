@@ -1,8 +1,11 @@
 #!/bin/busybox sh
 
+echo "recreating rootfs"
+mkdir -p /bin /dev /etc /lib /mnt /proc /sbin /sys /tmp /var
+echo "mounting fs"
 mount -t devtmpfs  devtmpfs  /dev
 mount -t proc      proc      /proc
 mount -t sysfs     sysfs     /sys
 mount -t tmpfs     tmpfs     /tmp
-
+echo "fallback to sh"
 sh
