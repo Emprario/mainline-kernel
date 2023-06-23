@@ -245,12 +245,22 @@ create_initramfs() {
   write_output "Building initramfs" "blue"
   echo -e "\n"
 
+  # populated initramfs
+  cd initramfs
+  mkdir --parents ./{bin,dev,etc,lib,lib64,mnt/root,proc,root,sbin,sys}
+  #cp --archive /dev/{null,console,tty} ./dev/ 
+  mknod -m 622 dev/console c 5 1
+  mknod -m 622 dev/tty0 c 4 1
+  cd ..
+
   # Magic cmd to create initramfs
   rm -rf initramfs/lib/modules/*
   mkdir -p initramfs/lib/modules
   tar xpf modules.tar.xz -C initramfs/lib/modules
   rm -f initramfs.cpio $KERNEL_SOURCE_FOLDER/initramfs.cpio
-  find initramfs | cpio -ov --format=newc > initramfs.cpio
+  cd initramfs
+  find . | cpio -ov --format=newc > ../initramfs.cpio
+  cd ..
   # copy initramfs to build root for the GitHub release
   cp initramfs.cpio $KERNEL_SOURCE_FOLDER/initramfs.cpio
   write_output "Building kernel with initramfs" "blue"
